@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"sync"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/swag"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
@@ -94,7 +94,7 @@ func FiberWrapHandler(configFns ...func(c *Config)) fiber.Handler {
 
 	var re = regexp.MustCompile(`^(.*/)([^?].*)?[?|.]*$`)
 
-	return func(ctx *fiber.Ctx) error {
+	return func(ctx fiber.Ctx) error {
 		matches := re.FindStringSubmatch(string(ctx.Request().URI().Path()))
 		path := matches[2]
 
@@ -105,7 +105,7 @@ func FiberWrapHandler(configFns ...func(c *Config)) fiber.Handler {
 		fileExt := filepath.Ext(path)
 		switch path {
 		case "":
-			return ctx.Redirect(filepath.Join(handler.Prefix, "index.html"), fiber.StatusMovedPermanently)
+			return ctx.Redirect().Status(fiber.StatusMovedPermanently).To(filepath.Join(handler.Prefix, "index.html"))
 
 		case "index.html":
 			ctx.Type(fileExt[0:], "utf-8")

@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/swaggo/swag"
 )
@@ -259,7 +259,7 @@ func TestWrapHandler(t *testing.T) {
 
 	w5 := performRequest(http.MethodGet, "/swagger-ui-bundle.js", router)
 	assert.Equal(t, http.StatusOK, w5.StatusCode)
-	assert.Equal(t, w5.Header.Get("Content-Type"), fiber.MIMEApplicationJavaScript)
+	assert.Equal(t, w5.Header.Get("Content-Type"), fiber.MIMETextJavaScript)
 
 	assert.Equal(t, http.StatusNotFound, performRequest(http.MethodGet, "/notfound", router).StatusCode)
 
